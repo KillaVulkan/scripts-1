@@ -9,6 +9,7 @@ extern void AddSC_battleground();
 
 // custom
 extern void AddSC_vip_teleporter();
+extern void AddSC_guildmaster();
 
 // examples
 extern void AddSC_example_creature();
@@ -340,6 +341,7 @@ void AddScripts()
 
     // custom
     AddSC_vip_teleporter();
+    AddSC_guildmaster();
 
     // examples
     AddSC_example_creature();
