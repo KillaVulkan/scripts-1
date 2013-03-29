@@ -136,11 +136,11 @@ UPDATE creature_template SET ScriptName='npc_redemption_target' WHERE entry IN (
 /* SPELL */
 UPDATE creature_template SET ScriptName='spell_dummy_npc' WHERE entry IN (
 -- eastern kingdoms
-1200,8888,
+1200,8888,13016,
 -- kalimdor
 9299,12296,12298,
 -- outland
-16880,16518,16847,17157,17326,17654,18879,22105,24918,24922,25084,25085);
+16880,16518,16847,17157,17326,17654,18879,21729,22105,24918,24922,25084,25085);
 
 UPDATE gameobject_template SET ScriptName='spell_dummy_go' WHERE entry IN (181616);
 
