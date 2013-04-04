@@ -27,9 +27,7 @@ boss_emeriss
 boss_lethon
 npc_spirit_shade
 boss_taerar
-boss_shade_of_taerar -- TODO move to Acid
 boss_ysondre
-mob_dementeddruids; -- TODO move to Acid
 EndContentData */
 
 #include "precompiled.h"
@@ -98,7 +96,7 @@ struct MANGOS_DLL_DECL boss_emerald_dragonAI : public ScriptedAI
     virtual bool DoSpecialDragonAbility() = 0;
 
     // Return true to handle shared timers and MeleeAttack
-    virtual bool UpdateDragonAI(const uint32 uiDiff) { return true; }
+    virtual bool UpdateDragonAI(const uint32 /*uiDiff*/) { return true; }
 
     void UpdateAI(const uint32 uiDiff) override
     {
@@ -170,7 +168,7 @@ struct MANGOS_DLL_DECL boss_emerissAI : public boss_emerald_dragonAI
         m_uiVolatileInfectionTimer = 12000;
     }
 
-    void Aggro(Unit* pWho) override
+    void Aggro(Unit* /*pWho*/) override
     {
         DoScriptText(SAY_EMERISS_AGGRO, m_creature);
     }
@@ -242,7 +240,7 @@ struct MANGOS_DLL_DECL boss_lethonAI : public boss_emerald_dragonAI
 {
     boss_lethonAI(Creature* pCreature) : boss_emerald_dragonAI(pCreature) {}
 
-    void Aggro(Unit* pWho) override
+    void Aggro(Unit* /*pWho*/) override
     {
         DoScriptText(SAY_LETHON_AGGRO, m_creature);
         // Shadow bolt wirl is a periodic aura which triggers a set of shadowbolts every 2 secs; may need some core tunning
@@ -308,9 +306,9 @@ struct MANGOS_DLL_DECL npc_spirit_shadeAI : public ScriptedAI
         }
     }
 
-    void AttackStart(Unit* pWho) override { }
+    void AttackStart(Unit* /*pWho*/) override { }
 
-    void UpdateAI(const uint32 uiDiff) override { }
+    void UpdateAI(const uint32 /*uiDiff*/) override { }
 };
 
 CreatureAI* GetAI_boss_lethon(Creature* pCreature)
@@ -368,7 +366,7 @@ struct MANGOS_DLL_DECL boss_taerarAI : public boss_emerald_dragonAI
             m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
     }
 
-    void Aggro(Unit* pWho) override
+    void Aggro(Unit* /*pWho*/) override
     {
         DoScriptText(SAY_TAERAR_AGGRO, m_creature);
     }
@@ -453,55 +451,9 @@ struct MANGOS_DLL_DECL boss_taerarAI : public boss_emerald_dragonAI
     }
 };
 
-// Shades of Taerar Script
-struct MANGOS_DLL_DECL boss_shadeoftaerarAI : public ScriptedAI
-{
-    boss_shadeoftaerarAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
-
-    uint32 m_uiPoisonCloud_Timer;
-    uint32 m_uiPosionBreath_Timer;
-
-    void Reset() override
-    {
-        m_uiPoisonCloud_Timer = 8000;
-        m_uiPosionBreath_Timer = 12000;
-    }
-
-    void UpdateAI(const uint32 uiDiff) override
-    {
-        if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
-
-        // PoisonCloud_Timer
-        if (m_uiPoisonCloud_Timer < uiDiff)
-        {
-            DoCastSpellIfCan(m_creature->getVictim(), SPELL_POSIONCLOUD);
-            m_uiPoisonCloud_Timer = 30000;
-        }
-        else
-            m_uiPoisonCloud_Timer -= uiDiff;
-
-        // PosionBreath_Timer
-        if (m_uiPosionBreath_Timer < uiDiff)
-        {
-            DoCastSpellIfCan(m_creature->getVictim(), SPELL_POSIONBREATH);
-            m_uiPosionBreath_Timer = 12000;
-        }
-        else
-            m_uiPosionBreath_Timer -= uiDiff;
-
-        DoMeleeAttackIfReady();
-    }
-};
-
 CreatureAI* GetAI_boss_taerar(Creature* pCreature)
 {
     return new boss_taerarAI(pCreature);
-}
-
-CreatureAI* GetAI_boss_shadeoftaerar(Creature* pCreature)
-{
-    return new boss_shadeoftaerarAI(pCreature);
 }
 
 /*######
@@ -534,7 +486,7 @@ struct MANGOS_DLL_DECL boss_ysondreAI : public boss_emerald_dragonAI
         m_uiLightningWaveTimer = 12000;
     }
 
-    void Aggro(Unit* pWho) override
+    void Aggro(Unit* /*pWho*/) override
     {
         DoScriptText(SAY_YSONDRE_AGGRO, m_creature);
     }
@@ -566,44 +518,9 @@ struct MANGOS_DLL_DECL boss_ysondreAI : public boss_emerald_dragonAI
     }
 };
 
-// Summoned druid script
-struct MANGOS_DLL_DECL mob_dementeddruidsAI : public ScriptedAI
-{
-    mob_dementeddruidsAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
-
-    uint32 m_uiMoonFire_Timer;
-
-    void Reset() override
-    {
-        m_uiMoonFire_Timer = 3000;
-    }
-
-    void UpdateAI(const uint32 uiDiff) override
-    {
-        if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
-
-        // MoonFire_Timer
-        if (m_uiMoonFire_Timer < uiDiff)
-        {
-            DoCastSpellIfCan(m_creature->getVictim(), SPELL_MOONFIRE);
-            m_uiMoonFire_Timer = 5000;
-        }
-        else
-            m_uiMoonFire_Timer -= uiDiff;
-
-        DoMeleeAttackIfReady();
-    }
-};
-
 CreatureAI* GetAI_boss_ysondre(Creature* pCreature)
 {
     return new boss_ysondreAI(pCreature);
-}
-
-CreatureAI* GetAI_mob_dementeddruids(Creature* pCreature)
-{
-    return new mob_dementeddruidsAI(pCreature);
 }
 
 void AddSC_bosses_emerald_dragons()
@@ -631,17 +548,7 @@ void AddSC_bosses_emerald_dragons()
     pNewScript->RegisterSelf();
 
     pNewScript = new Script;
-    pNewScript->Name = "boss_shade_of_taerar";
-    pNewScript->GetAI = &GetAI_boss_shadeoftaerar;
-    pNewScript->RegisterSelf();
-
-    pNewScript = new Script;
     pNewScript->Name = "boss_ysondre";
     pNewScript->GetAI = &GetAI_boss_ysondre;
-    pNewScript->RegisterSelf();
-
-    pNewScript = new Script;
-    pNewScript->Name = "mob_dementeddruids";
-    pNewScript->GetAI = &GetAI_mob_dementeddruids;
     pNewScript->RegisterSelf();
 }

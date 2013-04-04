@@ -16,8 +16,8 @@
 
 /* ScriptData
 SDName: Boss_Ossirian
-SD%Complete: 70%
-SDComment: Tornados missing, Weather missing
+SD%Complete: 80%
+SDComment: Weather missing
 SDCategory: Ruins of Ahn'Qiraj
 EndScriptData */
 
@@ -55,6 +55,12 @@ enum
     NPC_SAND_VORTEX         = 15428,                        // tornado npc
 };
 
+static const float aSandVortexSpawnPos[2][4] =
+{
+    {-9523.482f, 1880.435f, 85.645f, 5.08f},
+    {-9321.39f,  1822.968f, 84.266f, 3.16f},
+};
+
 static const float aCrystalSpawnPos[3] = { -9355.75f, 1905.43f, 85.55f};
 static const uint32 aWeaknessSpell[] = {SPELL_WEAKNESS_FIRE, SPELL_WEAKNESS_FROST, SPELL_WEAKNESS_NATURE, SPELL_WEAKNESS_ARCANE, SPELL_WEAKNESS_SHADOW};
 
@@ -87,11 +93,14 @@ struct MANGOS_DLL_DECL boss_ossirianAI : public ScriptedAI
         m_uiSupremeTimer = 45000;
     }
 
-    void Aggro(Unit* pWho) override
+    void Aggro(Unit* /*pWho*/) override
     {
         DoCastSpellIfCan(m_creature, SPELL_SUPREME, CAST_TRIGGERED);
         DoScriptText(SAY_AGGRO, m_creature);
         DoSpawnNextCrystal();
+
+        for (uint8 i = 0; i < countof(aSandVortexSpawnPos); ++i)
+            m_creature->SummonCreature(NPC_SAND_VORTEX, aSandVortexSpawnPos[i][0], aSandVortexSpawnPos[i][1], aSandVortexSpawnPos[i][2], aSandVortexSpawnPos[i][3], TEMPSUMMON_CORPSE_DESPAWN, 0);
     }
 
     void JustDied(Unit* /*pKiller*/) override
@@ -140,6 +149,12 @@ struct MANGOS_DLL_DECL boss_ossirianAI : public ScriptedAI
     {
         if (pSummoned->GetEntry() == NPC_OSSIRIAN_TRIGGER)
             pSummoned->CastSpell(pSummoned, SPELL_SUMMON_CRYSTAL, true);
+        else if (pSummoned->GetEntry() == NPC_SAND_VORTEX)
+        {
+            // The movement of this isn't very clear - may require additional research
+            pSummoned->CastSpell(pSummoned, SPELL_SAND_STORM, true);
+            pSummoned->GetMotionMaster()->MoveRandomAroundPoint(aCrystalSpawnPos[0], aCrystalSpawnPos[1], aCrystalSpawnPos[2], 100.0f);
+        }
     }
 
     void SpellHit(Unit* pCaster, const SpellEntry* pSpell) override
@@ -243,7 +258,7 @@ CreatureAI* GetAI_boss_ossirian(Creature* pCreature)
 }
 
 // This is actually a hack for a server-side spell
-bool GOUse_go_ossirian_crystal(Player* pPlayer, GameObject* pGo)
+bool GOUse_go_ossirian_crystal(Player* /*pPlayer*/, GameObject* pGo)
 {
     if (Creature* pOssirianTrigger = GetClosestCreatureWithEntry(pGo, NPC_OSSIRIAN_TRIGGER, 10.0f))
         pOssirianTrigger->CastSpell(pOssirianTrigger, aWeaknessSpell[urand(0, 4)], false);

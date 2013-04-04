@@ -94,9 +94,6 @@ struct MANGOS_DLL_DECL npc_kelerun_bloodmournAI : public ScriptedAI
 
         m_playerGuid.Clear();
 
-        for (uint8 i = 0; i < MAX_CHALLENGER; ++i)
-            m_aChallengerGuids[i].Clear();
-
         m_uiChallengerCount = 0;
 
         m_uiTimeOutTimer = 60000;
@@ -104,6 +101,12 @@ struct MANGOS_DLL_DECL npc_kelerun_bloodmournAI : public ScriptedAI
         m_uiEngageTimer = 0;
 
         m_bIsEventInProgress = false;
+        for (uint8 i = 0; i < MAX_CHALLENGER; ++i)          // Despawn challengers
+        {
+            if (Creature* pChallenger = m_creature->GetMap()->GetCreature(m_aChallengerGuids[i]))
+                pChallenger->ForcedDespawn(1000);
+            m_aChallengerGuids[i].Clear();
+        }
     }
 
     void StartEvent()
@@ -145,72 +148,73 @@ struct MANGOS_DLL_DECL npc_kelerun_bloodmournAI : public ScriptedAI
     {
         if (m_bIsEventInProgress)
         {
-            if (m_uiTimeOutTimer && m_uiTimeOutTimer < uiDiff)
+            if (m_uiTimeOutTimer)
             {
-                if (!m_playerGuid)
+                if (m_uiTimeOutTimer <= uiDiff)
                 {
-                    // player are expected to use GO within a minute, if not, event will fail.
-                    Reset();
-                    return;
+                    if (!m_playerGuid)                      // player are expected to use GO within a minute, if not, event will fail.
+                    {
+                        Reset();
+                        return;
+                    }
+                    m_uiTimeOutTimer = 0;
                 }
-
-                m_uiTimeOutTimer = 0;
+                else
+                    m_uiTimeOutTimer -= uiDiff;
             }
-            else
-                m_uiTimeOutTimer -= uiDiff;
 
             if (m_uiCheckAliveStateTimer < uiDiff)
             {
-                if (Creature* pChallenger = m_creature->GetMap()->GetCreature(m_aChallengerGuids[m_uiChallengerCount]))
+                Creature* pChallenger = m_creature->GetMap()->GetCreature(m_aChallengerGuids[m_uiChallengerCount]);
+                if (pChallenger && !pChallenger->isAlive())
                 {
-                    if (!pChallenger->isAlive())
+                    Player* pPlayer = m_creature->GetMap()->GetPlayer(m_playerGuid);
+                    if (!pPlayer || !pPlayer->isAlive())
                     {
-                        Player* pPlayer = m_creature->GetMap()->GetPlayer(m_playerGuid);
-
-                        if (pPlayer && !pPlayer->isAlive())
-                        {
-                            Reset();
-                            return;
-                        }
-
-                        ++m_uiChallengerCount;
-
-                        // count starts at 0
-                        if (m_uiChallengerCount == MAX_CHALLENGER)
-                        {
-                            if (pPlayer && pPlayer->isAlive())
-                                pPlayer->GroupEventHappens(QUEST_SECOND_TRIAL, m_creature);
-
-                            Reset();
-                            return;
-                        }
-                        else
-                            m_uiEngageTimer = 15000;
+                        Reset();
+                        return;
                     }
+
+                    ++m_uiChallengerCount;
+
+                    // count starts at 0
+                    if (m_uiChallengerCount == MAX_CHALLENGER)
+                    {
+                        pPlayer->GroupEventHappens(QUEST_SECOND_TRIAL, m_creature);
+                        Reset();
+                        return;
+                    }
+                    else
+                        m_uiEngageTimer = 15000;
                 }
                 m_uiCheckAliveStateTimer = 2500;
             }
             else
                 m_uiCheckAliveStateTimer -= uiDiff;
 
-            if (m_uiEngageTimer && m_uiEngageTimer < uiDiff)
+            if (m_uiEngageTimer)
             {
-                Player* pPlayer = m_creature->GetMap()->GetPlayer(m_playerGuid);
-
-                if (pPlayer && pPlayer->isAlive())
+                if (m_uiEngageTimer <= uiDiff)
                 {
+                    Player* pPlayer = m_creature->GetMap()->GetPlayer(m_playerGuid);
+                    if (!pPlayer || !pPlayer->isAlive())
+                    {
+                        Reset();
+                        return;
+                    }
+
                     if (Creature* pCreature = m_creature->GetMap()->GetCreature(m_aChallengerGuids[m_uiChallengerCount]))
                     {
                         DoScriptText(uiSayId[m_uiChallengerCount], m_creature, pPlayer);
                         pCreature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
                         pCreature->AI()->AttackStart(pPlayer);
                     }
-                }
 
-                m_uiEngageTimer = 0;
+                    m_uiEngageTimer = 0;
+                }
+                else
+                    m_uiEngageTimer -= uiDiff;
             }
-            else
-                m_uiEngageTimer -= uiDiff;
         }
     }
 };
@@ -221,7 +225,7 @@ CreatureAI* GetAI_npc_kelerun_bloodmourn(Creature* pCreature)
 }
 
 // easiest way is to expect database to respawn GO at quest accept (quest_start_script)
-bool QuestAccept_npc_kelerun_bloodmourn(Player* pPlayer, Creature* pCreature, const Quest* pQuest)
+bool QuestAccept_npc_kelerun_bloodmourn(Player* /*pPlayer*/, Creature* pCreature, const Quest* pQuest)
 {
     if (pQuest->GetQuestId() == QUEST_SECOND_TRIAL)
     {
@@ -310,7 +314,7 @@ bool GossipHello_npc_prospector_anvilward(Player* pPlayer, Creature* pCreature)
     return true;
 }
 
-bool GossipSelect_npc_prospector_anvilward(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
+bool GossipSelect_npc_prospector_anvilward(Player* pPlayer, Creature* pCreature, uint32 /*uiSender*/, uint32 uiAction)
 {
     switch (uiAction)
     {
@@ -372,7 +376,7 @@ struct MANGOS_DLL_DECL npc_apprentice_mirvedaAI : public ScriptedAI
         ++m_uiMobCount;
     }
 
-    void SummonedCreatureJustDied(Creature* pKilled) override
+    void SummonedCreatureJustDied(Creature* /*pKilled*/) override
     {
         --m_uiMobCount;
 
@@ -473,7 +477,7 @@ struct MANGOS_DLL_DECL npc_infused_crystalAI : public Scripted_NoMovementAI
         pSummoned->AI()->AttackStart(m_creature);
     }
 
-    void SummonedCreatureJustDied(Creature* pSummoned) override
+    void SummonedCreatureJustDied(Creature* /*pSummoned*/) override
     {
         ++m_uiKilledCount;
 
