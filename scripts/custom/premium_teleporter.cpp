@@ -12,27 +12,61 @@
 bool GossipHello_vip_teleporter(Player *pPlayer, Creature *_Creature)
 {
 	pPlayer->SetTaxiCheater(true);
-	pPlayer->ADD_GOSSIP_ITEM(5, "VIP Teleport",	     GOSSIP_SENDER_MAIN, 0);
-	pPlayer->ADD_GOSSIP_ITEM(5, "Normaler Teleporter",	     GOSSIP_SENDER_MAIN, 2);
-	pPlayer->ADD_GOSSIP_ITEM(5, "Build",                   GOSSIP_SENDER_MAIN, 100);
-	pPlayer->ADD_GOSSIP_ITEM(0, "Sch\303\266nen Tag noch", GOSSIP_SENDER_MAIN, 101);
-	pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,      _Creature->GetObjectGuid());
+	// pPlayer->ADD_GOSSIP_ITEM(5, "VIP Teleport",	             GOSSIP_SENDER_MAIN, 0);
+	pPlayer->ADD_GOSSIP_ITEM(5, "VIP Account",	                 GOSSIP_SENDER_MAIN, 0);
+	pPlayer->ADD_GOSSIP_ITEM(5, "Normale Account",	             GOSSIP_SENDER_MAIN, 1);
+	// pPlayer->ADD_GOSSIP_ITEM(5, "Normaler Teleporter",	     GOSSIP_SENDER_MAIN, 2);
+	pPlayer->ADD_GOSSIP_ITEM(5, "Build",                         GOSSIP_SENDER_MAIN, 100);
+	pPlayer->ADD_GOSSIP_ITEM(0, "Sch\303\266nen Tag noch",       GOSSIP_SENDER_MAIN, 101);
+
+	pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,            _Creature->GetObjectGuid());
 
 	return true;	   
 }
 
 void SendDefaultMenu_vip_teleporter(Player *pPlayer, Creature *_Creature, uint32 action)
-	{
-	   switch(action)
-	   {
-	   case 0: // VIP Nutzer!
+{
+	switch(action)
+    {
+	   case 0: // VIP Nutzer! Menü 2
 		   if (pPlayer->GetSession()->IsPremium() && (pPlayer->getAttackers().empty()))// Premium status abfragen?
 		   {
-                       pPlayer->ADD_GOSSIP_ITEM(5, "Hauptst\303\244dte",     GOSSIP_SENDER_MAIN, 1);
-                       pPlayer->ADD_GOSSIP_ITEM(5, "Instanzen",           GOSSIP_SENDER_MAIN, 3);
- 			  pPlayer->ADD_GOSSIP_ITEM(0, "Sch\303\266nen Tag noch",   GOSSIP_SENDER_MAIN, 101);
+                pPlayer->ADD_GOSSIP_ITEM(5, "Teleport",                GOSSIP_SENDER_MAIN, 2);
+                // pPlayer->ADD_GOSSIP_ITEM(5, "more",                 GOSSIP_SENDER_MAIN, X);
+ 			    pPlayer->ADD_GOSSIP_ITEM(0, "Sch\303\266nen Tag noch", GOSSIP_SENDER_MAIN, 101);
 
-			  pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,       _Creature->GetObjectGuid());
+			    pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,       _Creature->GetObjectGuid());
+		   }	   
+		   else
+		   {
+			   pPlayer->GetSession()->SendNotification("Tut uns Leid, du bist kein V.I.P");
+
+			   pPlayer->CLOSE_GOSSIP_MENU();
+		   }
+		   break;
+
+	   case 1: // Normale Nutzer Menü 2
+		   if (pPlayer->getAttackers().empty())                        // im Kampf?
+		    {
+                pPlayer->ADD_GOSSIP_ITEM(5, "Teleport",                GOSSIP_SENDER_MAIN, 4);
+ 			    pPlayer->ADD_GOSSIP_ITEM(0, "Sch\303\266nen Tag noch", GOSSIP_SENDER_MAIN, 101);
+			    
+                pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,       _Creature->GetObjectGuid());
+            }	   
+		   else
+		   {
+			   pPlayer->CLOSE_GOSSIP_MENU();
+		   }
+		   break;
+
+	   case 2: // VIP Nutzer! Menü 3
+		   if (pPlayer->GetSession()->IsPremium() && (pPlayer->getAttackers().empty()))// Premium status abfragen?
+		   {
+                pPlayer->ADD_GOSSIP_ITEM(5, "Hauptst\303\244dte",        GOSSIP_SENDER_MAIN, 3);
+                pPlayer->ADD_GOSSIP_ITEM(5, "Instanzen",                 GOSSIP_SENDER_MAIN, 5);
+ 			    pPlayer->ADD_GOSSIP_ITEM(0, "Sch\303\266nen Tag noch",   GOSSIP_SENDER_MAIN, 101);
+
+			    pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,         _Creature->GetObjectGuid());
 		   }	   
 		   else
 		   {
@@ -41,58 +75,57 @@ void SendDefaultMenu_vip_teleporter(Player *pPlayer, Creature *_Creature, uint32
 		   }
 		   break;
 
-	   case 1:
+	   case 3:
 		   if (pPlayer->GetTeam() == ALLIANCE)
 		   {
-			    // pPlayer->ADD_GOSSIP_ITEM(5, "Gurubashi Arena",             GOSSIP_SENDER_MAIN, 10);
-			    pPlayer->ADD_GOSSIP_ITEM(5, "Sturmwind",		              GOSSIP_SENDER_MAIN, 11);
+			    // pPlayer->ADD_GOSSIP_ITEM(5, "Gurubashi Arena",          GOSSIP_SENDER_MAIN, 10);
+			    pPlayer->ADD_GOSSIP_ITEM(5, "Sturmwind",		           GOSSIP_SENDER_MAIN, 11);
 			    pPlayer->ADD_GOSSIP_ITEM(5, "Darnassus",                   GOSSIP_SENDER_MAIN, 12);
 		        pPlayer->ADD_GOSSIP_ITEM(5, "Eisenschmiede",               GOSSIP_SENDER_MAIN, 13);
 		   	    pPlayer->ADD_GOSSIP_ITEM(5, "Exodar",                      GOSSIP_SENDER_MAIN, 14);
 	    	    pPlayer->ADD_GOSSIP_ITEM(5, "Shattrath",                   GOSSIP_SENDER_MAIN, 15);
 	    	    pPlayer->ADD_GOSSIP_ITEM(5, "Quel'Danas",                  GOSSIP_SENDER_MAIN, 20);
-			    pPlayer->ADD_GOSSIP_ITEM(0, "Teleport Men\303\274",        GOSSIP_SENDER_MAIN,  0);
+			    pPlayer->ADD_GOSSIP_ITEM(0, "Teleport Men\303\274",        GOSSIP_SENDER_MAIN,  2);
 
 			   pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,          _Creature->GetObjectGuid());
 		   }
 		   else
 		   if (pPlayer->GetTeam() == HORDE)
 		   {
-			   // pPlayer->ADD_GOSSIP_ITEM(5, "Gurubashi Arena",             GOSSIP_SENDER_MAIN, 10);
+			   // pPlayer->ADD_GOSSIP_ITEM(5, "Gurubashi Arena",           GOSSIP_SENDER_MAIN, 10);
 			    pPlayer->ADD_GOSSIP_ITEM(5, "Orgrimmar",                   GOSSIP_SENDER_MAIN, 16);
 		        pPlayer->ADD_GOSSIP_ITEM(5, "Donnerfels",                  GOSSIP_SENDER_MAIN, 17);
 			    pPlayer->ADD_GOSSIP_ITEM(5, "Unterstadt",                  GOSSIP_SENDER_MAIN, 18);
 			    pPlayer->ADD_GOSSIP_ITEM(5, "Silbermond",                  GOSSIP_SENDER_MAIN, 19);
 			    pPlayer->ADD_GOSSIP_ITEM(5, "Shattrath",                   GOSSIP_SENDER_MAIN, 15);
 	    	    pPlayer->ADD_GOSSIP_ITEM(5, "Quel'Danas",                  GOSSIP_SENDER_MAIN, 20);
-			    pPlayer->ADD_GOSSIP_ITEM(0, "Teleport Men\303\274",        GOSSIP_SENDER_MAIN,  0);
+			    pPlayer->ADD_GOSSIP_ITEM(0, "Teleport Men\303\274",        GOSSIP_SENDER_MAIN,  2);
 
 			   pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,            _Creature->GetObjectGuid());
 		   }
 			  break;
 
           // Normal Teleporter!
-	   case 2:
+	   case 4:
 		   if (pPlayer->GetTeam() == ALLIANCE)
 		   {
-			   pPlayer->ADD_GOSSIP_ITEM(5, "Sturmwind",		           GOSSIP_SENDER_MAIN, 11);
- 			   pPlayer->ADD_GOSSIP_ITEM(0, "Sch\303\266nen Tag noch",   GOSSIP_SENDER_MAIN, 101);
+			   pPlayer->ADD_GOSSIP_ITEM(5, "Sturmwind",		               GOSSIP_SENDER_MAIN, 11);
+ 			   pPlayer->ADD_GOSSIP_ITEM(0, "Sch\303\266nen Tag noch",      GOSSIP_SENDER_MAIN, 101);
 
-			   pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,          _Creature->GetObjectGuid());
+			   pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,           _Creature->GetObjectGuid());
 
 		   }
 		   else
 		   if (pPlayer->GetTeam() == HORDE)
 		   {
 			   pPlayer->ADD_GOSSIP_ITEM(5, "Orgrimmar",                   GOSSIP_SENDER_MAIN, 16);
- 			   pPlayer->ADD_GOSSIP_ITEM(0, "Sch\303\266nen Tag noch",   GOSSIP_SENDER_MAIN, 101);
+ 			   pPlayer->ADD_GOSSIP_ITEM(0, "Sch\303\266nen Tag noch",     GOSSIP_SENDER_MAIN, 101);
 
 			   pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,          _Creature->GetObjectGuid());
 		   }
 			  break;
 	   
-           case 3:                                                         // INSTANZEN
-		   if (pPlayer->GetTeam() == ALLIANCE)
+           case 5:                                                         // INSTANZEN
 		   {
 
 			    pPlayer->ADD_GOSSIP_ITEM(5, "Der Schwarzer Tempel",             GOSSIP_SENDER_MAIN, 21);
@@ -105,28 +138,20 @@ void SendDefaultMenu_vip_teleporter(Player *pPlayer, Creature *_Creature, uint32
 	    	    // pPlayer->ADD_GOSSIP_ITEM(5, "Sonnenbrunnenplateau",             OSSIP_SENDER_MAIN, 28);
 	    	    pPlayer->ADD_GOSSIP_ITEM(5, "Zul'Aman",                         GOSSIP_SENDER_MAIN, 29);
 			    // pPlayer->ADD_GOSSIP_ITEM(0, "Teleport Men\303\274",             GOSSIP_SENDER_MAIN, 0);
-                pPlayer->ADD_GOSSIP_ITEM(0, "Teleport Men\303\274",        GOSSIP_SENDER_MAIN,  0);
+                pPlayer->ADD_GOSSIP_ITEM(0, "Teleport Men\303\274",        GOSSIP_SENDER_MAIN,  2);
 
 			   pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,          _Creature->GetObjectGuid());
 		   }
-		   else
-		   if (pPlayer->GetTeam() == HORDE)
-		   {
-			    pPlayer->ADD_GOSSIP_ITEM(5, "Der Schwarzer Tempel",             GOSSIP_SENDER_MAIN, 21);
-		        pPlayer->ADD_GOSSIP_ITEM(5, "Festung der St\303\274rme",               GOSSIP_SENDER_MAIN, 22);
-		   	    // pPlayer->ADD_GOSSIP_ITEM(5, "Gruuls Unterschlupf",              GOSSIP_SENDER_MAIN, 23);
-	    	    // pPlayer->ADD_GOSSIP_ITEM(5, "H\303\266hle des Schlangenschreins",      GOSSIP_SENDER_MAIN, 24);
-	    	    pPlayer->ADD_GOSSIP_ITEM(5, "Hyjal",                            GOSSIP_SENDER_MAIN, 25);
-	    	    // pPlayer->ADD_GOSSIP_ITEM(5, "Karazahn",                         GOSSIP_SENDER_MAIN, 26);
-	    	    // pPlayer->ADD_GOSSIP_ITEM(5, "Magtheridons Kammer",              GOSSIP_SENDER_MAIN, 27);
-	    	    // pPlayer->ADD_GOSSIP_ITEM(5, "Sonnenbrunnenplateau",             OSSIP_SENDER_MAIN, 28);
-	    	    pPlayer->ADD_GOSSIP_ITEM(5, "Zul'Aman",                         GOSSIP_SENDER_MAIN, 29);
-			    // pPlayer->ADD_GOSSIP_ITEM(0, "Teleport Men\303\274",             GOSSIP_SENDER_MAIN, 0);
-                pPlayer->ADD_GOSSIP_ITEM(0, "Teleport Men\303\274",        GOSSIP_SENDER_MAIN,  0);
-
-			   pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,            _Creature->GetObjectGuid());
-		   }
 			  break;
+
+            // case 6:
+            // if (pPlayer->GetSession()->IsPremium())
+            //     {
+            //         pPlayer->SetAtLoginFlag(XXXXXXXXX);
+            //         pPlayer->GetSession()->SendNotification("beschreibung text");
+            //         pPlayer->CLOSE_GOSSIP_MENU();
+            //     }
+			//   break;
 
 		// Hauptstaedte
         case  10: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(0,   -13240.937500f,    204.797928f,     30.869392f, 1.102942f); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Gurubashi Arena!
@@ -166,7 +191,7 @@ void SendDefaultMenu_vip_teleporter(Player *pPlayer, Creature *_Creature, uint32
 
 		case 102:
 			pPlayer->CLOSE_GOSSIP_MENU();
-		    pPlayer->GetSession()->SendNotification("Version 1.0.2");
+		    pPlayer->GetSession()->SendNotification("Version 2.0.0");
 		  //_Creature->MonsterSay(4444406, pPlayer->GetObjectGuid());
 	    break;
 
@@ -174,8 +199,8 @@ void SendDefaultMenu_vip_teleporter(Player *pPlayer, Creature *_Creature, uint32
 			pPlayer->CLOSE_GOSSIP_MENU();
 		    pPlayer->GetSession()->SendNotification("by KillaVulkan");
 	    break;
-      }
-  }
+    }
+}
 
 bool GossipSelect_vip_teleporter(Player *pPlayer, Creature *_Creature, uint32 sender, uint32 action)
 {
