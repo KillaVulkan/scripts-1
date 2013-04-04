@@ -32,7 +32,8 @@ void SendDefaultMenu_vip_teleporter(Player *pPlayer, Creature *_Creature, uint32
 		   if (pPlayer->GetSession()->IsPremium() && (pPlayer->getAttackers().empty()))// Premium status abfragen?
 		   {
                 pPlayer->ADD_GOSSIP_ITEM(5, "Teleport",                GOSSIP_SENDER_MAIN, 2);
-                // pPlayer->ADD_GOSSIP_ITEM(5, "more",                 GOSSIP_SENDER_MAIN, X);
+                // pPlayer->ADD_GOSSIP_ITEM(3, "more",                 GOSSIP_SENDER_MAIN, xxxx);
+                pPlayer->ADD_GOSSIP_ITEM(3, "Waffen F\303\244higkeit auf Max",                 GOSSIP_SENDER_MAIN, 6);
  			    pPlayer->ADD_GOSSIP_ITEM(0, "Sch\303\266nen Tag noch", GOSSIP_SENDER_MAIN, 101);
 
 			    pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,       _Creature->GetObjectGuid());
@@ -141,19 +142,15 @@ void SendDefaultMenu_vip_teleporter(Player *pPlayer, Creature *_Creature, uint32
 			    // pPlayer->ADD_GOSSIP_ITEM(0, "Teleport Men\303\274",             GOSSIP_SENDER_MAIN, 0);
                 pPlayer->ADD_GOSSIP_ITEM(0, "Teleport Men\303\274",        GOSSIP_SENDER_MAIN,  2);
 
-			   pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,          _Creature->GetObjectGuid());
+			    pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,          _Creature->GetObjectGuid());
 		   }
-			  break;
+			    break;
 
-            // case 6: Mehr menü
-            // if (pPlayer->GetSession()->IsPremium())
-            //     {
-            //         pPlayer->SetAtLoginFlag(XXXXXXXXX);
-            //         pPlayer->GetSession()->SendNotification("beschreibung text");
-            //         pPlayer->CLOSE_GOSSIP_MENU();
-            //     }
-			//   break;
+			case 6: // Max Skills
+				pPlayer->CLOSE_GOSSIP_MENU();
+				pPlayer->UpdateSkillsToMaxSkillsForLevel();
 
+				break;
 /*
 #############################################
 #############################################
@@ -250,7 +247,7 @@ void SendDefaultMenu_vip_teleporter(Player *pPlayer, Creature *_Creature, uint32
 
 		case 110:
 			pPlayer->CLOSE_GOSSIP_MENU();
-		    pPlayer->GetSession()->SendNotification("Version 2.0.1");
+		    pPlayer->GetSession()->SendNotification("Version 2.0.2");
 		  //_Creature->MonsterSay(4444406, pPlayer->GetObjectGuid());
 	    break;
 
