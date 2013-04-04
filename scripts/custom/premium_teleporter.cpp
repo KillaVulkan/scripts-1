@@ -64,7 +64,8 @@ void SendDefaultMenu_vip_teleporter(Player *pPlayer, Creature *_Creature, uint32
 		   {
                 pPlayer->ADD_GOSSIP_ITEM(5, "Hauptst\303\244dte",        GOSSIP_SENDER_MAIN, 3);
                 pPlayer->ADD_GOSSIP_ITEM(5, "Instanzen",                 GOSSIP_SENDER_MAIN, 5);
- 			    pPlayer->ADD_GOSSIP_ITEM(0, "Sch\303\266nen Tag noch",   GOSSIP_SENDER_MAIN, 101);
+                pPlayer->ADD_GOSSIP_ITEM(5, "Welt",                 GOSSIP_SENDER_MAIN, 102);
+ 			    pPlayer->ADD_GOSSIP_ITEM(0, "Zur\303\274ck",   GOSSIP_SENDER_MAIN, 0);
 
 			    pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,         _Creature->GetObjectGuid());
 		   }	   
@@ -144,7 +145,7 @@ void SendDefaultMenu_vip_teleporter(Player *pPlayer, Creature *_Creature, uint32
 		   }
 			  break;
 
-            // case 6:
+            // case 6: Mehr menü
             // if (pPlayer->GetSession()->IsPremium())
             //     {
             //         pPlayer->SetAtLoginFlag(XXXXXXXXX);
@@ -153,32 +154,85 @@ void SendDefaultMenu_vip_teleporter(Player *pPlayer, Creature *_Creature, uint32
             //     }
 			//   break;
 
-		// Hauptstaedte
-        case  10: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(0,   -13240.937500f,    204.797928f,     30.869392f, 1.102942f); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Gurubashi Arena!
-        case  11: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(0,    -8881.000000f,    575.000000f,     93.000000f, 0.000000f); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Sturmwind
-        case  12: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(1,     9951.890000f,   2280.550000f,   1341.390000f, 0.000000f); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Darnassus
-        case  13: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(0,    -4981.000000f,   -881.000000f,    501.660000f, 0.000000f); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Eisenschmiede
-        case  14: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(530,  -4014.000000f, -11895.790000f,     -2.000000f, 0.000000f); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Exodar
-        case  15: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(530,  -1887.510010f,   5359.379883f,    -12.427300f, 0.000000f); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Shattrath
-        case  16: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(1,     1629.777344f,  -4373.210449f,     31.246769f, 0.000000f); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Orgrimmar
-        case  17: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(1,    -1196.858398f,     30.147331f,    176.949188f, 0.000000f); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Donnerfels
-        case  18: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(0,     1844.765625f,    237.655991f,     62.275150f, 0.000000f); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Unterstadt
-        case  19: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(530,   9400.486328f,  -7278.376953f,     14.206780f, 0.000000f); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Silbermod
-        case  20: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(530,   12942.400391f,  -6930.770020f,     4.213060f, 2.437920f); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Quel'Danas
-		// Instazen
-		case  21: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(530,   -3640.432861f,  314.126221f,     35.256004f, 2.897555f); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Der Schwarzer Tempel
-		case  22: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(530,   3088.391357f,  1386.200073f,     184.957825f, 4.546514f); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //FDS: Das Auge
-		// case  23: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(MAP,   XXXXXf,  YYYYf,     ZZZZZf, OOOOOf); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Gruuls Unterschlupf
-		// case  24: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(MAP,   XXXXXf,  YYYYf,     ZZZZZf, OOOOOf); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Höhle des Schlangenschreins
-		case  25: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(1,   -8168.119629f,  -4177.029785f,     -165.076645f, 4.125618f); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Hyjal
-		// case  26: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(MAP,   XXXXXf,  YYYYf,     ZZZZZf, OOOOOf); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Karazahn
-		// case  27: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(MAP,   XXXXXf,  YYYYf,     ZZZZZf, OOOOOf); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Magtheridons Kammer
-		// case  28: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(MAP,   XXXXXf,  YYYYf,     ZZZZZf, OOOOOf); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Sonnenbrunnenplateau
-		case  29: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(530,   6851.297852f,  -7954.612793f,     170.040161f, 4.668588f); _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break; //Zul'Aman
+/*
+#############################################
+#############################################
+#################HAUPTSTÄDTE#################
+#############################################
+#############################################
+*/
+        //Gurubashi Arena!
+        case  10: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(0,   -13240.937500f,    204.797928f,     30.869392f, 1.102942f); break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+		
+         //Sturmwind
+        case  11: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(0,    -8881.000000f,    575.000000f,     93.000000f, 0.000000f); break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+		
+        //Darnassus
+        case  12: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(1,     9951.890000f,   2280.550000f,   1341.390000f, 0.000000f); break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+		
+        //Eisenschmiede
+        case  13: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(0,    -4981.000000f,   -881.000000f,    501.660000f, 0.000000f); break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+		
+        //Exodar
+        case  14: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(530,  -4014.000000f, -11895.790000f,     -2.000000f, 0.000000f); break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+		
+        //Shattrath
+        case  15: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(530,  -1887.510010f,   5359.379883f,    -12.427300f, 0.000000f); break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+		
+        //Orgrimmar
+        case  16: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(1,     1629.777344f,  -4373.210449f,     31.246769f, 0.000000f); break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+		
+        //Donnerfels
+        case  17: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(1,    -1196.858398f,     30.147331f,    176.949188f, 0.000000f); break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+
+        // Unterstadt
+        case  18: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(0,     1844.765625f,    237.655991f,     62.275150f, 0.000000f); break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+
+		// Silbermod
+        case  19: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(530,   9400.486328f,  -7278.376953f,     14.206780f, 0.000000f); break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+
+		//Quel'Danas
+        case  20: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(530,   12942.400391f,  -6930.770020f,     4.213060f, 2.437920f); break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+
+
+/*
+#############################################
+#############################################
+##################INSTANZEN##################
+#############################################
+#############################################
+*/
+        // Der Schwarzer Tempel
+		case  21: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(530,   -3640.432861f,  314.126221f,     35.256004f, 2.897555f);  break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+		
+        //FDS: Das Auge
+		case  22: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(530,   3088.391357f,  1386.200073f,     184.957825f, 4.546514f);  break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+		
+        //Gruuls Unterschlupf
+		// case  23: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(MAP,   XXXXXf,  YYYYf,     ZZZZZf, OOOOOf);  break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+		
+        //Höhle des Schlangenschreins
+		// case  24: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(MAP,   XXXXXf,  YYYYf,     ZZZZZf, OOOOOf);  break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+		
+        //Hyjal
+		case  25: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(1,   -8168.119629f,  -4177.029785f,     -165.076645f, 4.125618f); break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+		
+        //Karazahn
+		// case  26: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(MAP,   XXXXXf,  YYYYf,     ZZZZZf, OOOOOf);  break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+		
+        //Magtheridons Kammer
+		// case  27: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(MAP,   XXXXXf,  YYYYf,     ZZZZZf, OOOOOf);  break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+		
+        //Sonnenbrunnenplateau
+		// case  28: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(MAP,   XXXXXf,  YYYYf,     ZZZZZf, OOOOOf);  break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+		
+        //Zul'Aman
+		case  29: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(530,   6851.297852f,  -7954.612793f,     170.040161f, 4.668588f); break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+
 
         case 100:
-	        pPlayer->ADD_GOSSIP_ITEM(6, "Version",                GOSSIP_SENDER_MAIN, 102);
-	        pPlayer->ADD_GOSSIP_ITEM(6, "Entwicklung",                GOSSIP_SENDER_MAIN, 103);
+	        pPlayer->ADD_GOSSIP_ITEM(6, "Version",                   GOSSIP_SENDER_MAIN, 110);
+	        pPlayer->ADD_GOSSIP_ITEM(6, "Entwickler",                GOSSIP_SENDER_MAIN, 111);
 	        pPlayer->ADD_GOSSIP_ITEM(0, "Sch\303\266nen Tag noch",   GOSSIP_SENDER_MAIN, 101);
 
 	        pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,        _Creature->GetObjectGuid());
@@ -190,12 +244,17 @@ void SendDefaultMenu_vip_teleporter(Player *pPlayer, Creature *_Creature, uint32
 		break;
 
 		case 102:
+			pPlayer->GetSession()->SendNotification("Dies befindet sich noch in Entwicklung");
 			pPlayer->CLOSE_GOSSIP_MENU();
-		    pPlayer->GetSession()->SendNotification("Version 2.0.0");
+		break;
+
+		case 110:
+			pPlayer->CLOSE_GOSSIP_MENU();
+		    pPlayer->GetSession()->SendNotification("Version 2.0.1");
 		  //_Creature->MonsterSay(4444406, pPlayer->GetObjectGuid());
 	    break;
 
-		case 103:
+		case 111:
 			pPlayer->CLOSE_GOSSIP_MENU();
 		    pPlayer->GetSession()->SendNotification("by KillaVulkan");
 	    break;
