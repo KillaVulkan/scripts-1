@@ -17,7 +17,6 @@ bool GossipHello_vip_teleporter(Player *pPlayer, Creature *_Creature)
 	pPlayer->ADD_GOSSIP_ITEM(5, "Normale Account",	             GOSSIP_SENDER_MAIN, 1);
 	// pPlayer->ADD_GOSSIP_ITEM(5, "Normaler Teleporter",	     GOSSIP_SENDER_MAIN, 2);
 	pPlayer->ADD_GOSSIP_ITEM(5, "Build",                         GOSSIP_SENDER_MAIN, 100);
-	pPlayer->ADD_GOSSIP_ITEM(0, "Sch\303\266nen Tag noch",       GOSSIP_SENDER_MAIN, 101);
 
 	pPlayer->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,            _Creature->GetObjectGuid());
 
@@ -154,7 +153,7 @@ void SendDefaultMenu_vip_teleporter(Player *pPlayer, Creature *_Creature, uint32
 /*
 #############################################
 #############################################
-#################HAUPTSTÄDTE#################
+################ HAUPTSTÄDTE ################
 #############################################
 #############################################
 */
@@ -195,7 +194,7 @@ void SendDefaultMenu_vip_teleporter(Player *pPlayer, Creature *_Creature, uint32
 /*
 #############################################
 #############################################
-##################INSTANZEN##################
+################# INSTANZEN #################
 #############################################
 #############################################
 */
@@ -226,7 +225,25 @@ void SendDefaultMenu_vip_teleporter(Player *pPlayer, Creature *_Creature, uint32
         //Zul'Aman
 		case  29: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(530,   6851.297852f,  -7954.612793f,     170.040161f, 4.668588f); break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
 
+/*
+#############################################
+#############################################
+#################### WELT ###################
+#############################################
+#############################################
+*/
+        //XXXXXX
+		// case  30: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(MAP,   XXXXXf,  YYYYf,     ZZZZZf, OOOOOf);  break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
 
+        //XXXXXX
+		// case  31: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(MAP,   XXXXXf,  YYYYf,     ZZZZZf, OOOOOf);  break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+
+        //XXXXXX
+		// case  32: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(MAP,   XXXXXf,  YYYYf,     ZZZZZf, OOOOOf);  break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+
+        //XXXXXX
+		// case  33: pPlayer->CLOSE_GOSSIP_MENU(); pPlayer->TeleportTo(MAP,   XXXXXf,  YYYYf,     ZZZZZf, OOOOOf);  break; // _Creature->MonsterSay(4444405, pPlayer->GetObjectGuid()); break;
+		
         case 100:
 	        pPlayer->ADD_GOSSIP_ITEM(6, "Version",                   GOSSIP_SENDER_MAIN, 110);
 	        pPlayer->ADD_GOSSIP_ITEM(6, "Entwickler",                GOSSIP_SENDER_MAIN, 111);
